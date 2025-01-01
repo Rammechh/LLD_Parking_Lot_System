@@ -1,0 +1,163 @@
+You’ve been tasked to design a parking lot system. The system should support the following requirements:
+
+Multiple floors in the parking lot.
+Different vehicle types (bike, car, truck).
+Operations like parking a vehicle, removing it, and checking availability.
+Optimize space usage, ensuring vehicles are assigned to appropriate spots.
+
+Question:
+How would you approach designing this system? Let’s start by discussing the functional and non-functional requirements.
+
+Functional Requirements
+These define the core functionality or features that the system should provide. They are focused on what the system should do.
+
+For the parking lot system, functional requirements include:
+
+Parking a vehicle.
+Removing a vehicle from the parking lot.
+Checking the availability of parking spots.
+Supporting multiple floors in the parking lot.
+Allocating the right parking spot based on the vehicle type.
+Handling edge cases like a full parking lot.
+Non-Functional Requirements
+These define the quality attributes of the system. They focus on how the system performs its functions and its overall behavior.
+
+For the parking lot system, non-functional requirements might include:
+
+Scalability: Ability to handle an increase in vehicles or floors.
+Performance: Quick response times for parking and retrieving vehicles.
+Reliability: The system should work without frequent crashes or errors.
+Maintainability: The system should be easy to modify or upgrade (e.g., adding EV charging spots).
+Security: Prevent unauthorized access or vehicle theft.
+
+Functional Requirements (Expanded):
+How to park a vehicle:
+
+Vehicle enters the parking lot and is assigned a parking spot.
+The system needs to handle allocation based on vehicle type (bike, car, truck).
+How to secure a spot and availability check:
+
+Each parking spot needs to be tracked for availability.
+A user should be able to check if a spot is free before entering.
+How to remove the vehicle:
+
+The system should allow the vehicle to exit once parked. The parking spot becomes available again.
+Fees and payment system:
+
+You need a way to charge users for parking, either on an hourly or flat-rate basis.
+Considerations for how fees are calculated (e.g., by time spent in the parking lot).
+How many vehicles can the parking lot accommodate?
+
+A system to track the total number of spots available versus occupied spots.
+Dynamic adjustment of availability as vehicles enter and exit.
+How many floors are needed?
+
+A system to handle multiple floors, managing spaces across different levels.
+Separate parking for different vehicle types (Car, Bike, Truck):
+
+Some floors or sections should be dedicated to certain types of vehicles to optimize space.
+Additional Functional Requirements (if needed):
+Special parking for large vehicles (e.g., trucks):
+
+Ensure larger vehicles have enough space. Trucks may require wider or longer spots.
+Reserve parking spots:
+
+Some systems allow users to reserve a spot ahead of time, especially in high-demand areas.
+Overstay or penalty handling:
+
+What happens if a vehicle stays beyond the paid period? The system should track this and calculate fines if applicable.
+Handling of VIP or Premium spots:
+
+Special reserved spots for premium members or certain vehicles (e.g., electric vehicle charging stations).
+Real-time monitoring and reporting:
+
+Ability to monitor and report on parking usage and space availability in real-time.
+
+1. Class Design
+We can break down the system into the following main components (classes):
+
+ParkingLot: Represents the entire parking lot.
+ParkingSpot: Represents individual parking spots.
+Vehicle: A generic vehicle class, which can be extended for different vehicle types (car, bike, truck).
+Ticket: Represents a parking ticket or receipt issued when a vehicle parks.
+Payment: Manages payment for parking.
+ParkingFloor: Represents individual floors in the parking lot (optional but useful for scalability).
+
+
+2. Class Definitions and Attributes
+
+**1.ParkingLot Class**
+This class will represent the overall parking lot, and it will manage multiple parking floors and spots.
+
+Attributes:
+floors: List of ParkingFloor objects.
+total_capacity: Total number of parking spots.
+occupied_count: Number of currently occupied spots.
+
+Methods:
+park_vehicle(vehicle: Vehicle): Parks the vehicle and assigns a spot.
+remove_vehicle(ticket: Ticket): Removes the vehicle based on the ticket and frees up the spot.
+get_available_spots(): Returns the number of available spots.
+get_occupied_spots(): Returns the number of occupied spots.
+
+**2.ParkingSpot Class**
+This class will represent an individual parking spot.
+
+Attributes:
+spot_id: Unique identifier for the parking spot.
+vehicle: The vehicle currently occupying the spot (if any).
+vehicle_type: Type of vehicle allowed (e.g., car, bike, truck).
+is_available: Boolean indicating whether the spot is available.
+
+Methods:
+assign_vehicle(vehicle: Vehicle): Assigns a vehicle to this spot.
+remove_vehicle(): Removes the vehicle from this spot, marking it as available.
+
+**3.Vehicle Class**
+This is a base class representing a vehicle. We can extend it for different vehicle types like Car, Bike, or Truck.
+
+Attributes:
+vehicle_type: Type of vehicle (e.g., car, bike, truck).
+license_plate: License plate of the vehicle.
+
+Methods:
+get_vehicle_type(): Returns the type of the vehicle.
+get_license_plate(): Returns the vehicle's license plate.
+
+**4.Ticket Class**
+This class represents a parking ticket issued when a vehicle parks.
+
+Attributes:
+ticket_id: Unique identifier for the ticket.
+vehicle: The vehicle being parked.
+entry_time: Timestamp when the vehicle enters the parking lot.
+exit_time: Timestamp when the vehicle leaves.
+parking_spot: The spot assigned to the vehicle.
+
+Methods:
+generate_ticket(): Generates a new parking ticket when a vehicle parks.
+close_ticket(): Closes the ticket and calculates the fee based on time spent.
+
+**5.Payment Class**
+This class handles payment for parking.
+
+Attributes:
+amount_due: The amount the vehicle owner needs to pay.
+payment_status: Status of the payment (e.g., paid, pending).
+
+Methods:
+calculate_fee(entry_time, exit_time): Calculates parking fee based on the duration.
+process_payment(): Processes the payment.
+
+**6.ParkingFloor Class**
+If the parking lot has multiple floors, this class manages individual floors.
+
+Attributes:
+floor_id: Unique identifier for the floor.
+spots: List of ParkingSpot objects on this floor.
+floor_capacity: Maximum number of spots on the floor.
+
+Methods:
+get_available_spots(): Returns the number of available spots on the floor.
+get_occupied_spots(): Returns the number of occupied spots on the floor.
+assign_spot(vehicle: Vehicle): Assigns a parking spot to a vehicle on the floor.

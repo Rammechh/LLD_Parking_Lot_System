@@ -1,0 +1,70 @@
++-------------------+
+|     ParkingLot    |
++-------------------+
+| - floors: List    |
++-------------------+
+| + park_vehicle(vehicle: Vehicle): Ticket   |
+| + remove_vehicle(ticket: Ticket): Ticket   |
++-------------------+
+          |
+          | Aggregation
+          |
++-------------------+
+|   ParkingFloor    |
++-------------------+
+| - floor_id: int   |
+| - spots: List     |
++-------------------+
+| + get_available_spots(): List[ParkingSpot] |
+| + assign_spot(vehicle: Vehicle): ParkingSpot |
++-------------------+
+          |
+          | Composition
+          |
++-------------------+
+|   ParkingSpot     |
++-------------------+
+| - spot_id: str    |
+| - vehicle_type: str |
+| - is_available: bool |
++-------------------+
+| + assign_vehicle(vehicle: Vehicle): bool   |
+| + remove_vehicle(): None                   |
++-------------------+
+          |
+          | Association
+          |
++-------------------+
+|     Vehicle       |
++-------------------+
+| - vehicle_type: str |
+| - license_plate: str |
++-------------------+
+| + get_vehicle_type(): str   |
+| + get_license_plate(): str  |
++-------------------+
+          |
+          | Association
+          |
++-------------------+
+|      Ticket       |
++-------------------+
+| - ticket_id: str  |
+| - vehicle: Vehicle |
+| - parking_spot: ParkingSpot |
+| - entry_time: datetime |
+| - exit_time: datetime |
++-------------------+
+| + close_ticket(): datetime |
++-------------------+
+          |
+          | Association
+          |
++-------------------+
+|      Payment      |
++-------------------+
+| - rate_per_hour: int |
+| - amount_due: float  |
++-------------------+
+| + calculate_fee(): float |
++-------------------+
