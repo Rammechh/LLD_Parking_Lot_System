@@ -13,5 +13,5 @@ class ParkingSpot:
         return False
 
     def remove_vehicle(self):
-        self.vehcile = None
+        self.vehicle = None
         self.is_available = True 
